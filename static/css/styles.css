@@ -4,7 +4,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     background: linear-gradient(135deg, #6a11cb, #2575fc);
     font-family: 'Arial', sans-serif;
     color: #fff;
@@ -13,7 +13,6 @@ body {
 h1 {
     font-size: 2.5rem;
     margin-bottom: 20px;
-    margin-right: 30px;
     text-align: center;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
@@ -29,7 +28,23 @@ h1 {
     align-items: center;
     gap: 20px;
     max-width: 90%;
-    width: 300px;
+    width: 250px;
+    margin: 20px;
+}
+
+.scan-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    max-width: 90%;
+    width: 350px;
+    margin: 20px;
 }
 
 .canvas-container {
@@ -62,6 +77,8 @@ h1 {
     border: none;
     cursor: pointer;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 200px;
 }
 
 .button:hover {
@@ -129,4 +146,79 @@ h1 {
 
 .container {
     animation: fadeIn 0.8s ease-out;
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .container {
+        padding: 20px;
+        width: 90%;
+        max-width: 350px;
+    }
+
+    .scan-container {
+        padding: 20px;
+        width: 90%;
+        max-width: 350px;
+    }
+
+    .button {
+        font-size: 0.9rem;
+        padding: 10px 20px;
+    }
+
+    #qr-code-container {
+        width: 150px;
+        height: 150px;
+    }
+
+    #canvas {
+        width: 100%;
+        height: auto;
+    }
+
+    .back-button {
+        top: 10px;
+        left: 10px;
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .container {
+        padding: 15px;
+        width: 95%;
+        max-width: 300px;
+    }
+
+    .scan-container {
+        padding: 15px;
+        width: 95%;
+        max-width: 300px;
+    }
+
+    .button {
+        font-size: 0.8rem;
+        padding: 8px 16px;
+    }
+
+    #qr-code-container {
+        width: 120px;
+        height: 120px;
+    }
+
+    .back-button {
+        top: 5px;
+        left: 5px;
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
 }
