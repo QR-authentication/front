@@ -18,8 +18,14 @@ document.getElementById('generate-btn').addEventListener('click', function () {
         })
         .catch(error => {
             console.error('Error:', error);
+
+            const qrCodeContainer = document.getElementById('qr-code');
+            qrCodeContainer.innerHTML = '';
+
             const errorMessage = document.createElement('p');
-            errorMessage.textContent = "Произошла ошибка при загрузке QR кода.";
-            document.getElementById('qr-code').appendChild(errorMessage);
+            errorMessage.textContent = "Произошла ошибка при генерации QR кода";
+            errorMessage.style.color = 'white';
+            errorMessage.style.textAlign = 'center';
+            qrCodeContainer.appendChild(errorMessage);
         });
 });
