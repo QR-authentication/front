@@ -5,54 +5,49 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    background: #000000; /* Чёрный фон */
     font-family: 'Arial', sans-serif;
-    color: #fff;
+    color: #ffffff; /* Белый текст */
 }
 
 h1 {
     font-size: 2.5rem;
     margin-bottom: 20px;
     text-align: center;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .container {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 30px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    background: #1a1a1a; /* Тёмно-серый фон контейнера (монотонный) */
+    border: 1px solid #ffffff; /* Тонкая белая граница */
+    border-radius: 5px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 15px;
     max-width: 90%;
-    width: 250px;
+    width: 300px;
     margin: 20px;
 }
 
 .scan-container {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 30px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    background: #1a1a1a; /* Тёмно-серый фон контейнера (монотонный) */
+    border: 1px solid #ffffff; /* Тонкая белая граница */
+    border-radius: 5px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 15px;
     max-width: 90%;
-    width: 350px;
+    width: 400px;
     margin: 20px;
 }
 
 .canvas-container {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
+    border: 1px solid #ffffff; /* Тонкая белая граница */
+    border-radius: 5px;
     padding: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     width: 100%;
     display: flex;
     justify-content: center;
@@ -60,43 +55,39 @@ h1 {
 }
 
 #canvas {
-    border-radius: 15px;
+    border-radius: 5px;
     width: 100%;
     height: auto;
 }
 
 .button {
-    padding: 12px 24px;
-    background: linear-gradient(135deg, #6a11cb, #2575fc);
-    color: white;
+    padding: 10px 20px;
+    background: #ffffff; /* Белый фон кнопки */
+    color: #000000; /* Чёрный текст */
     text-decoration: none;
-    border-radius: 25px;
+    border-radius: 5px;
     font-size: 1rem;
     text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
     border: none;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     width: 100%;
     max-width: 200px;
 }
 
 .button:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    background: #e0e0e0; /* Более светлый белый при наведении (монотонный) */
 }
 
 #qr-code-container {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
+    background: #1a1a1a; /* Тёмно-серый фон (монотонный) */
+    border: 1px solid #ffffff; /* Тонкая белая граница */
+    border-radius: 5px;
     padding: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 180px;
     height: 180px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 #qr-code {
@@ -112,40 +103,76 @@ h1 {
 #qr-code img {
     max-width: 100%;
     max-height: 100%;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 
 .back-button {
     position: absolute;
     top: 20px;
     left: 20px;
-    padding: 10px 20px;
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
+    padding: 8px 16px;
+    background: #ffffff; /* Белый фон */
+    color: #000000; /* Чёрный текст */
     text-decoration: none;
-    border-radius: 25px;
+    border-radius: 5px;
     font-size: 1rem;
-    transition: background 0.3s ease, transform 0.3s ease;
+    border: 1px solid #ffffff;
 }
 
 .back-button:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: translateY(-3px);
+    background: #e0e0e0; /* Более светлый белый при наведении (монотонный) */
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.logout-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 8px 16px;
+    background: #ffffff; /* Белый фон */
+    color: #000000; /* Чёрный текст */
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    border: 1px solid #ffffff;
+    cursor: pointer;
 }
 
-.container {
-    animation: fadeIn 0.8s ease-out;
+.logout-button:hover {
+    background: #e0e0e0; /* Более светлый белый при наведении (монотонный) */
+}
+
+.auth-container {
+    background: #1a1a1a; /* Тёмно-серый фон (монотонный) */
+    border: 1px solid #ffffff; /* Тонкая белая граница */
+    border-radius: 5px;
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    margin: 20px;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+.auth-input {
+    padding: 10px;
+    border: 1px solid #ffffff; /* Белая граница */
+    border-radius: 5px;
+    font-size: 1rem;
+    background: #1a1a1a; /* Тёмно-серый фон (монотонный) */
+    color: #ffffff; /* Белый текст */
+}
+
+.auth-input:focus {
+    outline: none;
+    border-color: #e0e0e0; /* Более светлый белый при фокусе (монотонный) */
 }
 
 @media (max-width: 768px) {
@@ -154,20 +181,21 @@ h1 {
     }
 
     .container {
-        padding: 20px;
+        padding: 15px;
         width: 90%;
         max-width: 350px;
     }
 
     .scan-container {
-        padding: 20px;
+        padding: 15px;
         width: 90%;
         max-width: 350px;
     }
 
     .button {
         font-size: 0.9rem;
-        padding: 10px 20px;
+        padding: 8px 16px;
+        max-width: 220px;
     }
 
     #qr-code-container {
@@ -180,10 +208,11 @@ h1 {
         height: auto;
     }
 
-    .back-button {
-        top: 10px;
-        left: 10px;
-        padding: 8px 16px;
+    .back-button, .logout-button {
+        top: 15px;
+        left: 15px;
+        right: 15px;
+        padding: 6px 12px;
         font-size: 0.9rem;
     }
 }
@@ -194,20 +223,21 @@ h1 {
     }
 
     .container {
-        padding: 15px;
+        padding: 10px;
         width: 95%;
         max-width: 300px;
     }
 
     .scan-container {
-        padding: 15px;
+        padding: 10px;
         width: 95%;
         max-width: 300px;
     }
 
     .button {
         font-size: 0.8rem;
-        padding: 8px 16px;
+        padding: 6px 12px;
+        max-width: 200px;
     }
 
     #qr-code-container {
@@ -215,10 +245,11 @@ h1 {
         height: 120px;
     }
 
-    .back-button {
-        top: 5px;
-        left: 5px;
-        padding: 6px 12px;
+    .back-button, .logout-button {
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        padding: 5px 10px;
         font-size: 0.8rem;
     }
 }

@@ -1,13 +1,27 @@
 document.addEventListener('DOMContentLoaded', function () {
+    console.log('DOM loaded');
     const canvasElement = document.getElementById('canvas');
     const canvasFrame = document.querySelector('.canvas-container');
-    const canvas = canvasElement.getContext('2d');
     const outputDiv = document.getElementById('output');
+    if (!canvasElement || !canvasFrame || !outputDiv) {
+        console.error('One or more DOM elements not found');
+        return;
+    }
+    console.log('DOM elements found');
+
+    const canvas = canvasElement.getContext('2d');
+    if (!canvas) {
+        console.error('Canvas context not available');
+        return;
+    }
+    console.log('Canvas context initialized');
+
     let scanning = false;
     let videoStream = null;
 
     navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
         .then(function (stream) {
+            console.log('Camera access granted');
             videoStream = stream;
             const video = document.createElement('video');
             video.srcObject = stream;
@@ -20,11 +34,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     canvasElement.width = video.videoWidth;
                     canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
                     const imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
+
+                    // Убираем фильтр яркости для теста
                     const code = jsQR(imageData.data, imageData.width, imageData.height, {
                         inversionAttempts: 'dontInvert',
                     });
 
                     if (code && !scanning) {
+                        console.log('QR code detected:', code.data);
                         scanning = true;
                         sendTokenToServer(code.data);
                     }
@@ -41,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
     function sendTokenToServer(token) {
+        console.log('Sending token to server:', token);
         fetch('/api/qr', {
             method: 'POST',
             headers: {
@@ -57,11 +75,12 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(data => {
                 if (data.access_granted) {
                     outputDiv.innerHTML = "Вход успешно произведен";
-                    stopScanning();
+                } else if (Object.keys(data).length === 0) { // Пустой ответ от сервера
+                    outputDiv.innerHTML = "В доступе отказано";
                 } else {
                     outputDiv.innerHTML = "В доступе отказано. Возможно, QR-код уже использован.";
-                    stopScanning();
                 }
+                stopScanning();
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -78,5 +97,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (canvasFrame) {
             canvasFrame.style.display = 'none';
         }
+        scanning = false;
+        console.log('Scanning stopped');
     }
 });
