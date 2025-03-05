@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
                     const imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
 
-                    // Убираем фильтр яркости для теста
+                    // Убираем фильтр яркости для упрощения (можно восстановить, если нужно)
                     const code = jsQR(imageData.data, imageData.width, imageData.height, {
                         inversionAttempts: 'dontInvert',
                     });
@@ -67,12 +67,14 @@ document.addEventListener('DOMContentLoaded', function () {
             body: JSON.stringify({ "token": token }),
         })
             .then(response => {
+                console.log('Server response status:', response.status);
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
                 return response.json();
             })
             .then(data => {
+                console.log('Server response data:', data);
                 if (data.access_granted) {
                     outputDiv.innerHTML = "Вход успешно произведен";
                 } else if (Object.keys(data).length === 0) { // Пустой ответ от сервера

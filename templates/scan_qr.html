@@ -8,11 +8,14 @@
 </head>
 <body>
 <a class="back-button" href="/">Back to Home</a>
-<div class="scan-container">
-    <div class="canvas-container">
-        <canvas id="canvas" height="480" width="640"></canvas>
+<div class="qr-scan-container">
+    <h2>Scan QR Code</h2>
+    <div class="scan-box">
+        <div class="canvas-container">
+            <canvas id="canvas" height="480" width="640"></canvas>
+        </div>
     </div>
-    <div id="output"></div>
+    <div id="output" class="scan-output"></div>
 </div>
 <script src="/static/js/scan.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>

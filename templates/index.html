@@ -3,16 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Authentication</title>
+    <title>QR Authentication Project</title>
     <link rel="stylesheet" href="/static/css/styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script defer src="/static/js/index.js"></script>
 </head>
 <body>
-<button id="logout-btn" class="logout-button">Logout</button>
-<h1>QR Authentication</h1>
-<div class="container">
-    <a href="/generate-qr" class="button">Generate QR Code</a>
-    <a href="/scan-qr" class="button">Scan QR Code</a>
-</div>
-<script src="/static/js/index.js"></script>
+<nav class="navbar">
+    <div class="nav-container">
+        <h1 class="nav-title">QR Authentication</h1>
+        <div class="nav-tabs">
+            <button class="nav-tab active" data-tab="description">Description</button>
+            <button class="nav-tab" data-tab="testing">Testing</button>
+        </div>
+    </div>
+</nav>
+
+<main class="main-content">
+    <section class="tab-content active" id="description">
+        <div class="content-wrapper">
+            <h2>About QR Authentication</h2>
+            <p>This project provides a secure and user-friendly QR-based authentication system. It allows users to generate and scan QR codes for seamless authentication, ensuring security and convenience.</p>
+            <p>Key features include:</p>
+            <ul>
+                <li>QR code generation for secure token distribution</li>
+                <li>Real-time QR scanning using device cameras</li>
+                <li>Robust authentication with JWT-based cookies</li>
+                <li>Responsive design for desktops and mobile devices</li>
+            </ul>
+            <p>Developed with modern web technologies, this project aims to demonstrate secure authentication methods using QR codes, suitable for various applications like login systems, access control, and more.</p>
+        </div>
+    </section>
+
+    <section class="tab-content" id="testing">
+        <div class="content-wrapper">
+            <button id="logout-btn" class="button">Logout</button>
+            <h2>QR Authentication Testing</h2>
+            <div class="testing-actions">
+                <a href="/generate-qr" class="button">Generate QR Code</a>
+                <a href="/scan-qr" class="button">Scan QR Code</a>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <p>&copy; 2025 QR Authentication Project. All rights reserved.</p>
+</footer>
 </body>
 </html>
