@@ -638,3 +638,21 @@ ul {
         padding: 0.3rem;
     }
 }
+
+.error-message {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1a1a1a;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    z-index: 1001;
+    user-select: none; /* Запрещаем выделение текста */
+    overflow: hidden; /* Убираем прокрутку */
+    max-width: 80%; /* Ограничиваем ширину */
+    white-space: nowrap; /* Текст в одну строку */
+    text-overflow: ellipsis; /* Обрезаем длинный текст с многоточием */
+}

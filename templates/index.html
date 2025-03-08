@@ -8,7 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script defer src="/static/js/index.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script> <!-- Подключаем jsQR для сканирования -->
+    <script defer src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 </head>
 <body>
 <nav class="navbar">
@@ -41,8 +41,17 @@
         <div class="content-wrapper">
             <button id="logout-btn" class="button logout-button">Logout</button>
             <h2>QR Authentication Testing</h2>
-            <p>Test the QR authentication system by interacting with its core features. This section allows you to generate unique QR codes for secure token distribution and scan QR codes in real-time using your device's camera. Experience the seamless and efficient authentication process, ensuring security and convenience for various applications, such as login systems and access control. Follow the instructions on the respective pages to generate or scan QR codes effectively.</p>
-            <div id="qr-actions">
+            <div id="testing-description">
+                <p>Test the QR authentication system by interacting with its core features. This section allows you to generate unique QR codes for secure token distribution and scan QR codes in real-time using your device's camera. Experience the seamless and efficient authentication process, ensuring security and convenience for various applications, such as login systems and access control. Follow the instructions on the respective pages to generate or scan QR codes effectively.</p>
+            </div>
+            <div id="auth-container" class="auth-container" style="display: none;">
+                <form id="login-form" class="auth-form" novalidate> <!-- Добавляем novalidate -->
+                    <input type="text" id="login" name="login" placeholder="Login" required class="auth-input">
+                    <input type="password" id="password" name="password" placeholder="Password" required class="auth-input">
+                    <button type="submit" class="button">Login</button>
+                </form>
+            </div>
+            <div id="qr-actions" style="display: none;">
                 <div id="qr-code-container" class="qr-code-box" style="display: none;"></div>
                 <div id="qr-scan-container" class="qr-scan-box" style="display: none;">
                     <div class="scan-box">
