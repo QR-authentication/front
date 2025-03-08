@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Управление вкладками
     const navTabs = document.querySelectorAll('.nav-tab');
     const tabContents = document.querySelectorAll('.tab-content');
     const testingTab = document.querySelector('.nav-tab[data-tab="testing"]');
@@ -11,44 +10,32 @@ document.addEventListener('DOMContentLoaded', function () {
     const qrScanContainer = document.getElementById('qr-scan-container');
     let scanning = false;
     let videoStream = null;
-    let loginFormHandlerSet = false; // Флаг для отслеживания обработчика
+    let loginFormHandlerSet = false;
 
     navTabs.forEach(tab => {
         tab.addEventListener('click', function () {
             const tabId = this.getAttribute('data-tab');
-
-            // Убираем активный класс у всех вкладок и контента
             navTabs.forEach(t => t.classList.remove('active'));
             tabContents.forEach(content => content.classList.remove('active'));
-
-            // Добавляем активный класс текущей вкладке и контенту
             this.classList.add('active');
             document.getElementById(tabId).classList.add('active');
-
-            // Плавная анимация появления контента
             gsap.fromTo(`#${tabId}`,
                 { opacity: 0, y: 20 },
                 { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }
             );
-
-            // Если переходим из Testing в Description, скрываем QR-код и сканер
             if (tabId !== 'testing') {
                 hideQrElements();
             }
-
-            // Если выбрана вкладка Testing, проверяем авторизацию
             if (tabId === 'testing') {
                 checkAuthStatus();
             }
         });
     });
 
-    // Проверка авторизации при загрузке, если открыта вкладка Testing
     if (testingTab.classList.contains('active')) {
         checkAuthStatus();
     }
 
-    // Функция проверки статуса авторизации
     function checkAuthStatus() {
         fetch('/auth/check-jwt', {
             method: 'GET',
@@ -73,7 +60,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
-    // Показать форму логина (неавторизован)
     function showLoginForm() {
         testingDescription.style.display = 'none';
         authContainer.style.display = 'flex';
@@ -83,7 +69,6 @@ document.addEventListener('DOMContentLoaded', function () {
         setupLoginForm();
     }
 
-    // Показать функционал тестирования (авторизован)
     function showTestingFeatures() {
         testingDescription.style.display = 'block';
         authContainer.style.display = 'none';
@@ -91,7 +76,6 @@ document.addEventListener('DOMContentLoaded', function () {
         logoutBtn.style.display = 'block';
     }
 
-    // Скрыть QR-код и сканер
     function hideQrElements() {
         qrCodeContainer.style.display = 'none';
         qrScanContainer.style.display = 'none';
@@ -102,14 +86,11 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Показать кастомное сообщение об ошибке
     function showCustomError(message) {
         const errorDiv = document.createElement('div');
         errorDiv.className = 'error-message';
         errorDiv.textContent = message;
         document.body.appendChild(errorDiv);
-
-        // Удаляем сообщение через 3 секунды с анимацией
         gsap.to(errorDiv, {
             opacity: 0,
             duration: 0.5,
@@ -119,7 +100,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Настройка формы логина
     function setupLoginForm() {
         const loginForm = document.getElementById('login-form');
         const loginInput = document.getElementById('login');
@@ -128,16 +108,12 @@ document.addEventListener('DOMContentLoaded', function () {
         if (loginForm && !loginFormHandlerSet) {
             loginForm.addEventListener('submit', function (e) {
                 e.preventDefault();
-
                 const login = loginInput.value.trim();
                 const password = passwordInput.value.trim();
-
-                // Проверка на пустые поля
                 if (!login || !password) {
                     showCustomError('Please fill in both login and password fields.');
                     return;
                 }
-
                 fetch('/auth/login', {
                     method: 'POST',
                     headers: {
@@ -165,7 +141,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Обработка кнопки выхода
     logoutBtn.addEventListener('click', function () {
         fetch('/auth/logout', {
             method: 'GET',
@@ -185,7 +160,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     });
 
-    // Генерация QR-кода
     const generateBtn = document.getElementById('generate-btn');
     const scanOutput = document.getElementById('scan-output');
 
@@ -198,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         fetch('/api/qr', {
             method: 'GET',
-            credentials: 'include' // Отправляем только куку
+            credentials: 'include'
         })
             .then(response => {
                 if (!response.ok) {
@@ -226,7 +200,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     });
 
-    // Сканирование QR-кода
     const scanBtn = document.getElementById('scan-btn');
 
     scanBtn.addEventListener('click', function () {
@@ -240,7 +213,6 @@ document.addEventListener('DOMContentLoaded', function () {
     function startScanning() {
         if (scanning) return;
         scanning = true;
-
         navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
             .then(function (stream) {
                 videoStream = stream;
@@ -248,21 +220,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 video.srcObject = stream;
                 video.setAttribute('playsinline', true);
                 video.play();
-
                 const canvasElement = document.getElementById('scan-canvas');
                 const canvas = canvasElement.getContext('2d');
-
                 function tick() {
                     if (video.readyState === video.HAVE_ENOUGH_DATA) {
                         canvasElement.height = video.videoHeight;
                         canvasElement.width = video.videoWidth;
                         canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
                         const imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
-
                         const code = jsQR(imageData.data, imageData.width, imageData.height, {
                             inversionAttempts: 'dontInvert',
                         });
-
                         if (code && scanning) {
                             sendTokenToServer(code.data);
                         }
@@ -287,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ "token": token }),
-            credentials: 'include' // Отправляем куку вместе с токеном
+            credentials: 'include'
         })
             .then(response => {
                 if (!response.ok) {
