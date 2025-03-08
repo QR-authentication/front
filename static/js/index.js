@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const navTabs = document.querySelectorAll('.nav-tab');
     const tabContents = document.querySelectorAll('.tab-content');
     const testingTab = document.querySelector('.nav-tab[data-tab="testing"]');
-    const testingContent = document.getElementById('testing');
     const testingDescription = document.getElementById('testing-description');
     const authContainer = document.getElementById('auth-container');
     const qrActions = document.getElementById('qr-actions');
@@ -191,14 +190,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const scanOutput = document.getElementById('scan-output');
 
     generateBtn.addEventListener('click', function () {
-        const uuid = '8b081da3-1834-49ed-8b48-a8ab19068993';
         qrScanContainer.style.display = 'none';
         if (videoStream) {
             videoStream.getTracks().forEach(track => track.stop());
             videoStream = null;
             scanning = false;
         }
-        fetch(`/api/qr?uuid=${uuid}`)
+        fetch('/api/qr', {
+            method: 'GET',
+            credentials: 'include' // Отправляем только куку
+        })
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
@@ -207,9 +208,9 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .then(data => {
                 qrCodeContainer.innerHTML = '';
-                if (data.QR) {
+                if (data.qr) {
                     const img = document.createElement('img');
-                    img.src = `data:image/png;base64,${data.QR}`;
+                    img.src = `data:image/png;base64,${data.qr}`;
                     qrCodeContainer.appendChild(img);
                     qrCodeContainer.style.display = 'flex';
                     gsap.fromTo(qrCodeContainer,
@@ -286,6 +287,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ "token": token }),
+            credentials: 'include' // Отправляем куку вместе с токеном
         })
             .then(response => {
                 if (!response.ok) {
