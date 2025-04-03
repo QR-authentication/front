@@ -80,11 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
         qrCodeContainer.style.display = 'none';
         qrScanContainer.style.display = 'none';
         document.getElementById('scan-output').innerHTML = '';
-        if (videoStream) {
-            videoStream.getTracks().forEach(track => track.stop());
-            videoStream = null;
-            scanning = false;
-        }
+        stopScanning();
     }
 
     function showCustomError(message) {
@@ -167,11 +163,7 @@ document.addEventListener('DOMContentLoaded', function () {
     generateBtn.addEventListener('click', function () {
         qrScanContainer.style.display = 'none';
         scanOutput.innerHTML = '';
-        if (videoStream) {
-            videoStream.getTracks().forEach(track => track.stop());
-            videoStream = null;
-            scanning = false;
-        }
+        stopScanning();
         fetch('/api/qr', {
             method: 'GET',
             credentials: 'include'
@@ -213,8 +205,24 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    function stopScanning() {
+        if (videoStream) {
+            videoStream.getTracks().forEach(track => track.stop());
+            videoStream = null;
+        }
+        scanning = false;
+        const scanBox = document.querySelector('.scan-box');
+        if (scanBox) {
+            scanBox.innerHTML = '<div class="canvas-container"><canvas id="scan-canvas" height="480" width="640"></canvas></div>';
+        }
+    }
+
     function startScanning() {
         if (scanning) return;
+        
+        // Clean up any existing scanning session
+        stopScanning();
+        
         scanning = true;
         navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
             .then(function (stream) {
@@ -223,12 +231,25 @@ document.addEventListener('DOMContentLoaded', function () {
                 video.srcObject = stream;
                 video.setAttribute('playsinline', true);
                 video.play();
-                const canvasElement = document.getElementById('scan-canvas');
-                const canvas = canvasElement.getContext('2d');
+                
                 const scanBox = document.querySelector('.scan-box');
+                const canvasElement = document.getElementById('scan-canvas');
+                
+                if (!canvasElement || !scanBox) {
+                    throw new Error('Required elements not found');
+                }
+                
+                const canvas = canvasElement.getContext('2d');
+                if (!canvas) {
+                    throw new Error('Could not get canvas context');
+                }
+                
                 scanBox.innerHTML = '';
                 scanBox.appendChild(video);
+                
                 function tick() {
+                    if (!scanning || !video || !canvasElement || !canvas) return;
+                    
                     if (video.readyState === video.HAVE_ENOUGH_DATA) {
                         canvasElement.height = video.videoHeight;
                         canvasElement.width = video.videoWidth;
@@ -248,9 +269,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 requestAnimationFrame(tick);
             })
             .catch(function (error) {
-                console.error('Error accessing the camera: ', error);
-                scanOutput.innerHTML = "Ошибка доступа к камере. Разрешите доступ.";
-                stopScanning();
+                console.error('Error accessing the camera:', error);
+                scanning = false;
+                if (videoStream) {
+                    videoStream.getTracks().forEach(track => track.stop());
+                    videoStream = null;
+                }
+                showCustomError('Could not access the camera. Please make sure you have granted camera permissions.');
             });
     }
 
@@ -297,17 +322,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             qrScanContainer.style.display = 'flex';
-        }
-    }
-
-    function stopScanning() {
-        if (videoStream) {
-            videoStream.getTracks().forEach(track => track.stop());
-            videoStream = null;
-            scanning = false;
-            const scanBox = document.querySelector('.scan-box');
-            scanBox.innerHTML = '';
-            scanBox.appendChild(document.getElementById('scan-canvas'));
         }
     }
 });
