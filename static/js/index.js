@@ -182,9 +182,9 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .then(data => {
                 qrCodeContainer.innerHTML = '';
-                if (data.qr) {
+                if (data.Qr) {
                     const img = document.createElement('img');
-                    img.src = `data:image/png;base64,${data.qr}`;
+                    img.src = `data:image/png;base64,${data.Qr}`;
                     qrCodeContainer.appendChild(img);
                     qrCodeContainer.style.display = 'flex';
                     gsap.fromTo(qrCodeContainer,
@@ -254,7 +254,7 @@ document.addEventListener('DOMContentLoaded', function () {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ "token": token }),
+            body: JSON.stringify({ "Token": token }),
             credentials: 'include'
         })
             .then(response => {
