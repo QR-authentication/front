@@ -79,6 +79,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function hideQrElements() {
         qrCodeContainer.style.display = 'none';
         qrScanContainer.style.display = 'none';
+        document.getElementById('scan-output').innerHTML = '';
         if (videoStream) {
             videoStream.getTracks().forEach(track => track.stop());
             videoStream = null;
@@ -165,6 +166,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     generateBtn.addEventListener('click', function () {
         qrScanContainer.style.display = 'none';
+        scanOutput.innerHTML = '';
         if (videoStream) {
             videoStream.getTracks().forEach(track => track.stop());
             videoStream = null;
@@ -182,9 +184,9 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .then(data => {
                 qrCodeContainer.innerHTML = '';
-                if (data.Qr) {
+                if (data.qr) {
                     const img = document.createElement('img');
-                    img.src = `data:image/png;base64,${data.Qr}`;
+                    img.src = `data:image/png;base64,${data.qr}`;
                     qrCodeContainer.appendChild(img);
                     qrCodeContainer.style.display = 'flex';
                     gsap.fromTo(qrCodeContainer,
@@ -205,6 +207,7 @@ document.addEventListener('DOMContentLoaded', function () {
     scanBtn.addEventListener('click', function () {
         qrCodeContainer.style.display = 'none';
         qrScanContainer.style.display = 'flex';
+        scanOutput.innerHTML = '';
         if (!scanning) {
             startScanning();
         }
@@ -222,6 +225,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 video.play();
                 const canvasElement = document.getElementById('scan-canvas');
                 const canvas = canvasElement.getContext('2d');
+                const scanBox = document.querySelector('.scan-box');
+                scanBox.innerHTML = '';
+                scanBox.appendChild(video);
                 function tick() {
                     if (video.readyState === video.HAVE_ENOUGH_DATA) {
                         canvasElement.height = video.videoHeight;
@@ -281,9 +287,11 @@ document.addEventListener('DOMContentLoaded', function () {
     function stopScanning() {
         if (videoStream) {
             videoStream.getTracks().forEach(track => track.stop());
+            videoStream = null;
+            scanning = false;
+            const scanBox = document.querySelector('.scan-box');
+            scanBox.innerHTML = '';
+            scanBox.appendChild(document.getElementById('scan-canvas'));
         }
-        scanning = false;
-        videoStream = null;
-        qrScanContainer.style.display = 'none';
     }
 });
