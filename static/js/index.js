@@ -275,13 +275,29 @@ document.addEventListener('DOMContentLoaded', function () {
                 } else {
                     scanOutput.innerHTML = "В доступе отказано";
                 }
-                stopScanning();
+                stopScanningButKeepMessage();
             })
             .catch(error => {
                 console.error('Error:', error);
                 scanOutput.innerHTML = "Ошибка при отправке запроса на сервер";
-                stopScanning();
+                stopScanningButKeepMessage();
             });
+    }
+
+    function stopScanningButKeepMessage() {
+        if (videoStream) {
+            videoStream.getTracks().forEach(track => track.stop());
+            videoStream = null;
+            scanning = false;
+
+            const scanBox = document.querySelector('.scan-box');
+            const videoElement = scanBox.querySelector('video');
+            if (videoElement) {
+                videoElement.remove();
+            }
+
+            qrScanContainer.style.display = 'flex';
+        }
     }
 
     function stopScanning() {
