@@ -86,11 +86,41 @@ document.addEventListener('DOMContentLoaded', function () {
     function showCustomError(message) {
         const errorDiv = document.createElement('div');
         errorDiv.className = 'error-message';
+        errorDiv.style.cssText = `
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #2d3436;
+            color: #dfe6e9;
+            padding: 15px 25px;
+            border-radius: 5px;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            font-size: 16px;
+            text-align: center;
+            min-width: 200px;
+            max-width: 80%;
+            opacity: 1;
+            border: 1px solid #636e72;
+        `;
         errorDiv.textContent = message;
         document.body.appendChild(errorDiv);
+
+        gsap.fromTo(errorDiv,
+            { opacity: 0, y: -20 },
+            { 
+                opacity: 1, 
+                y: 0, 
+                duration: 0.3, 
+                ease: 'power2.out' 
+            }
+        );
+
         gsap.to(errorDiv, {
             opacity: 0,
-            duration: 0.5,
+            y: -20,
+            duration: 0.3,
             delay: 2.5,
             ease: 'power2.out',
             onComplete: () => errorDiv.remove()
@@ -230,7 +260,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 video.srcObject = stream;
                 video.setAttribute('playsinline', true);
                 video.play();
-                
+
                 const scanBox = document.querySelector('.scan-box');
                 const canvasElement = document.getElementById('scan-canvas');
                 
