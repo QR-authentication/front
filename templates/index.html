@@ -24,16 +24,18 @@
 <main class="main-content">
     <section class="tab-content active" id="description">
         <div class="content-wrapper">
-            <h2>About QR Authentication</h2>
-            <p>This project provides a secure and user-friendly QR-based authentication system. It allows users to generate and scan QR codes for seamless authentication, ensuring security and convenience.</p>
-            <p>Key features include:</p>
+            <h2>QR Authentication</h2>
+            <p>Этот проект направлен на модернизацию системы контроля и управления доступом (СКУД) в одном из зданий Финансового университета. Основная цель — повысить удобство, безопасность и эффективность управления доступом с использованием современных технологий, таких как аутентификация по QR-кодам.</p>
+            <p>Основные особенности:</p>
             <ul>
-                <li>QR code generation for secure token distribution</li>
-                <li>Real-time QR scanning using device cameras</li>
-                <li>Robust authentication with JWT-based cookies</li>
-                <li>Responsive design for desktops and mobile devices</li>
+                <li>Студенты и сотрудники могут использовать QR-коды вместо пластиковых карт, которые могут размагнититься или потеряться</li>
+                <li>Проект легко интегрируется с текущей инфраструктурой университета, что минимизирует затраты на внедрение</li>
+                <li>В проекте представлен универсальный код, который можно интегировать куда угодно (telegram bot, приложение Финансового Университета и т.п.)</li>
+                <li>Администраторы получают доступ к детальным отчетам о посещаемости</li>
+                <li>Простое и интуитивно понятное управление доступом для всех пользователей</li>
+                <li>Использование современных методов шифрования и защиты данных для предотвращения несанкционированного доступа</li>
             </ul>
-            <p>Developed with modern web technologies, this project aims to demonstrate secure authentication methods using QR codes, suitable for various applications like login systems, access control, and more.</p>
+            <p>Разработано с использованием технологий: golang, gRPC, protobuf, PostgreSQL, Gateway API, nginx, html, css, js, JWT token, bcrypt</p>
         </div>
     </section>
 
@@ -42,10 +44,10 @@
             <button id="logout-btn" class="button logout-button">Logout</button>
             <h2>QR Authentication Testing</h2>
             <div id="testing-description">
-                <p>Test the QR authentication system by interacting with its core features. This section allows you to generate unique QR codes for secure token distribution and scan QR codes in real-time using your device's camera. Experience the seamless and efficient authentication process, ensuring security and convenience for various applications, such as login systems and access control. Follow the instructions on the respective pages to generate or scan QR codes effectively.</p>
+                <p>Протестируйте систему QR-аутентификации, взаимодействуя с ее основными функциями. В этом разделе вы можете генерировать уникальные QR-коды для безопасного распространения токенов и сканировать QR-коды в режиме реального времени с помощью камеры вашего устройства.</p>
             </div>
             <div id="auth-container" class="auth-container" style="display: none;">
-                <form id="login-form" class="auth-form" novalidate> <!-- Добавляем novalidate -->
+                <form id="login-form" class="auth-form" novalidate>
                     <input type="text" id="login" name="login" placeholder="Login" required class="auth-input">
                     <input type="password" id="password" name="password" placeholder="Password" required class="auth-input">
                     <button type="submit" class="button">Login</button>
@@ -71,7 +73,7 @@
 </main>
 
 <footer class="footer">
-    <p>© 2025 QR Authentication Project. All rights reserved.</p>
+    <p>© 2025 QR Authentication Project</p>
 </footer>
 </body>
 </html>

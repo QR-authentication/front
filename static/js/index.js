@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const login = loginInput.value.trim();
                 const password = passwordInput.value.trim();
                 if (!login || !password) {
-                    showCustomError('Please fill in both login and password fields.');
+                    showCustomError('Пожалуйста, заполните оба поля: логин и пароль');
                     return;
                 }
                 fetch('/auth/login', {
@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         console.error('Error:', error);
                         loginInput.value = '';
                         passwordInput.value = '';
-                        showCustomError('Login failed. Please check your credentials.');
+                        showCustomError('Вход в систему не удался. Пожалуйста, проверьте свои учетные данные');
                     });
             });
             loginFormHandlerSet = true;
@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .catch(error => {
                 console.error('Error logging out:', error);
-                showCustomError('Logout failed. Please try again.');
+                showCustomError('Выход из системы не удался. Пожалуйста, попробуйте еще раз');
             });
     });
 
@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function () {
         })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
+                    throw new Error(`HTTP error, status: ${response.status}`);
                 }
                 return response.json();
             })
@@ -220,7 +220,6 @@ document.addEventListener('DOMContentLoaded', function () {
     function startScanning() {
         if (scanning) return;
         
-        // Clean up any existing scanning session
         stopScanning();
         
         scanning = true;
@@ -275,7 +274,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     videoStream.getTracks().forEach(track => track.stop());
                     videoStream = null;
                 }
-                showCustomError('Could not access the camera. Please make sure you have granted camera permissions.');
+                showCustomError('Не удалось получить доступ к камере. Убедитесь, что предоставлены соответствующие права');
             });
     }
 
@@ -290,7 +289,7 @@ document.addEventListener('DOMContentLoaded', function () {
         })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
+                    throw new Error(`HTTP error, status: ${response.status}`);
                 }
                 return response.json();
             })
