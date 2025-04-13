@@ -402,3 +402,21 @@ ul {
         margin-bottom: 0.5rem;
     }
 }
+
+.scan-type-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+.scan-type-btn {
+    flex: 1;
+    background: var(--secondary-bg);
+    border: 1px solid var(--border-color);
+}
+
+.scan-type-btn.active {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+}

@@ -11,6 +11,10 @@ document.addEventListener('DOMContentLoaded', function () {
     let scanning = false;
     let videoStream = null;
     let loginFormHandlerSet = false;
+    const scanBtn = document.getElementById('scan-btn');
+    const entranceBtn = document.getElementById('entrance-btn');
+    const exitBtn = document.getElementById('exit-btn');
+    let currentScanAction = 'entrance';
 
     navTabs.forEach(tab => {
         tab.addEventListener('click', function () {
@@ -81,6 +85,9 @@ document.addEventListener('DOMContentLoaded', function () {
         qrScanContainer.style.display = 'none';
         document.getElementById('scan-output').innerHTML = '';
         stopScanning();
+        currentScanAction = 'entrance';
+        entranceBtn.classList.add('active');
+        exitBtn.classList.remove('active');
     }
 
     function showCustomError(message) {
@@ -177,6 +184,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (response.ok) {
                     document.cookie = 'FA_AUTH_TOKEN=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
                     showLoginForm();
+                    currentScanAction = 'entrance';
+                    entranceBtn.classList.add('active');
+                    exitBtn.classList.remove('active');
                 } else {
                     throw new Error('Logout failed');
                 }
@@ -224,7 +234,17 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     });
 
-    const scanBtn = document.getElementById('scan-btn');
+    entranceBtn.addEventListener('click', function() {
+        currentScanAction = 'entrance';
+        entranceBtn.classList.add('active');
+        exitBtn.classList.remove('active');
+    });
+
+    exitBtn.addEventListener('click', function() {
+        currentScanAction = 'exit';
+        exitBtn.classList.add('active');
+        entranceBtn.classList.remove('active');
+    });
 
     scanBtn.addEventListener('click', function () {
         qrCodeContainer.style.display = 'none';
@@ -314,7 +334,10 @@ document.addEventListener('DOMContentLoaded', function () {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ "Token": token }),
+            body: JSON.stringify({ 
+                "Token": token,
+                "Action": currentScanAction
+            }),
             credentials: 'include'
         })
             .then(response => {
@@ -325,7 +348,7 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             .then(data => {
                 if (data.access_granted) {
-                    scanOutput.innerHTML = "Вход успешно произведен";
+                    scanOutput.innerHTML = currentScanAction === 'entrance' ? "Вход успешно произведен" : "Выход успешно произведен";
                 } else {
                     scanOutput.innerHTML = "В доступе отказано";
                 }
