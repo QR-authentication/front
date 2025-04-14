@@ -116,11 +116,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         gsap.fromTo(errorDiv,
             { opacity: 0, y: -20 },
-            { 
-                opacity: 1, 
-                y: 0, 
-                duration: 0.3, 
-                ease: 'power2.out' 
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.3,
+                ease: 'power2.out'
             }
         );
 
@@ -269,9 +269,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function startScanning() {
         if (scanning) return;
-        
+
         stopScanning();
-        
+
         scanning = true;
         navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
             .then(function (stream) {
@@ -283,22 +283,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 const scanBox = document.querySelector('.scan-box');
                 const canvasElement = document.getElementById('scan-canvas');
-                
+
                 if (!canvasElement || !scanBox) {
                     throw new Error('Required elements not found');
                 }
-                
+
                 const canvas = canvasElement.getContext('2d');
                 if (!canvas) {
                     throw new Error('Could not get canvas context');
                 }
-                
+
                 scanBox.innerHTML = '';
                 scanBox.appendChild(video);
-                
+
                 function tick() {
                     if (!scanning || !video || !canvasElement || !canvas) return;
-                    
+
                     if (video.readyState === video.HAVE_ENOUGH_DATA) {
                         canvasElement.height = video.videoHeight;
                         canvasElement.width = video.videoWidth;
@@ -308,6 +308,8 @@ document.addEventListener('DOMContentLoaded', function () {
                             inversionAttempts: 'dontInvert',
                         });
                         if (code && scanning) {
+                            scanning = false;
+                            scanOutput.innerHTML = "Обработка...";
                             sendTokenToServer(code.data);
                         }
                     }
@@ -329,12 +331,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function sendTokenToServer(token) {
+        stopScanningButKeepMessage();
+
         fetch('/api/qr', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ 
+            body: JSON.stringify({
                 "Token": token,
                 "Action": currentScanAction
             }),
@@ -352,12 +356,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 } else {
                     scanOutput.innerHTML = "В доступе отказано";
                 }
-                stopScanningButKeepMessage();
             })
             .catch(error => {
                 console.error('Error:', error);
                 scanOutput.innerHTML = "Ошибка при отправке запроса на сервер";
-                stopScanningButKeepMessage();
             });
     }
 
