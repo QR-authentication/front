@@ -347,7 +347,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 return response.json();
             })
             .then(data => {
-                if (data.success) {
+                if (data.access_granted) {
                     scanOutput.innerHTML = currentScanAction === 'entrance' ? "Вход успешно произведен" : "Выход успешно произведен";
                 } else {
                     scanOutput.innerHTML = "В доступе отказано";
